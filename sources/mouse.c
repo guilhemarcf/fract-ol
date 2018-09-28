@@ -14,38 +14,36 @@
 
 int		motion_hook(int x, int y, t_win *win)
 {
-	(void)y;
-	set_gradient(win);
-	mlx_put_image_to_window(win->m_p, win->w_p, win->i_p, 0, 0);
-	if (x >= 0 && x <= W_W / 3)
-		win->reg1 = 0;
-	else
-		win->reg1 = 1;
-	if (x > W_W / 3 && x <= (2 * W_W) / 3)
-		win->reg2 = 0;
-	else
-		win->reg2 = 1;
-	if (x > (2 * W_W) / 3 && x <= W_W)
-		win->reg3 = 0;
-	else
-		win->reg3 = 1;
+	win->instx = x;
+	win->insty = y;
+	//if (win->fract == 1)
+	//	plot_image(win, &iterate_julia);
 	return (1);
 }
 
 int		mouse_hook(int button, int x, int y, t_win *win)
 {
 	ft_putnbr(button);
-	(void)win;
-	(void)x;
-	(void)y;
-	set_mwparam(button, win);
+	set_scale(button, win, x, y);
+	plot_image(win);
 	return (1);
 }
 
-void	set_mwparam(int button, t_win *win)
+
+void	set_scale(int button, t_win *win, int x, int y)
 {
 	if (button == 4)
-		win->mwparam = win->mwparam * 1.05;
+	{
+		win->scaley = win->scaley * 1.05;
+		win->scalex = (win->scaley * W_W) / W_H;
+		set_offsetx(win, get_relx(x), 1);
+		set_offsety(win, get_rely(y), 1);
+	}
 	else if (button == 5)
-		win->mwparam = win->mwparam * 0.97;
+	{
+		win->scaley = win->scaley * 0.9523809;
+		win->scalex = (win->scaley * W_W) / W_H;
+		set_offsetx(win, get_relx(x), 0);
+		set_offsety(win, get_rely(y), 0);
+	}
 }

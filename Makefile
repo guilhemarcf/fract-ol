@@ -27,7 +27,9 @@ SRC_NAME = main.c\
 			keys.c\
 			mouse.c\
 			images.c\
-			color.c
+			color.c\
+			complex.c\
+			scaling.c
 
 INC_NAME = fractol.h
 
@@ -61,7 +63,7 @@ fclean: clean
 re: fclean all
 
 simple: $(OBJ)
-	@$(CC) -o $(NAME) $(OBJ) -L $(LFT_PATH) -lft -L $(MLX_PATH) -lmlx \
+	@$(CC) -o $(NAME) $(OBJ) $(INC) -L $(LFT_PATH) -lft -L $(MLX_PATH) -lmlx \
 	-framework OpenGL -framework AppKit
 
 .PHONY: clean $(NAME) fclean all re

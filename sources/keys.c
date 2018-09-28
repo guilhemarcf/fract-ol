@@ -25,4 +25,70 @@ void	act_on_key(t_win *win)
 	ft_putchar(' ');
 	if (win->keycode == 53)
 		exit(0);
+	else if (win->keycode == 45)
+		change_fract(win);
+	else if (win->keycode >= 1 && win->keycode <= 3)
+		change_color_incr1(win);
+	else if (win->keycode >= 7 && win->keycode <= 9)
+		change_color_incr2(win);
+	plot_image(win);
 }
+
+void	change_fract(t_win *win)
+{
+	if (win->fract == 0)
+		win->fract = 1;
+	else
+		win->fract = 0;
+}
+
+void	change_color_incr1(t_win *win)
+{
+	if (win->keycode == 1)
+	{
+		if (win->red_incr < 8)
+			win->red_incr++;
+		else
+			win->red_incr = 1;
+	}
+	else if (win->keycode == 2)
+	{
+		if (win->green_incr < 8)
+			win->green_incr++;
+		else
+			win->green_incr = 1;
+	}
+	else if (win->keycode == 3)
+	{
+		if (win->blue_incr < 8)
+			win->blue_incr++;
+		else
+			win->blue_incr = 1;
+	}
+}
+
+void	change_color_incr2(t_win *win)
+{
+	if (win->keycode == 7)
+	{
+		if (win->red_incr > 1)
+			win->red_incr--;
+		else
+			win->red_incr = 8;
+	}
+	else if (win->keycode == 8)
+	{
+		if (win->green_incr > 1)
+			win->green_incr--;
+		else
+			win->green_incr = 8;
+	}
+	else if (win->keycode == 8)
+	{
+		if (win->blue_incr > 1)
+			win->blue_incr--;
+		else
+			win->blue_incr = 8;
+	}
+}
+

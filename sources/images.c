@@ -22,11 +22,17 @@ void		init_img(t_win *win)
 	win->bpp = 32;
 	win->size_line = win->bpp * W_W;
 	win->endian = 1;
-	win->mwparam = 1;
-	win->reg1 = 1;
-	win->reg2 = 1;
-	win->reg3 = 1;
-	set_color_incrs(win);
+	win->scaley = 2.5;
+	win->offx = 0;
+	win->offy = 0;
+	//win->fract = 0;
+	win->red_incr = 8;
+	win->green_incr = 8;
+	win->blue_incr = 8;
+	win->scalex = (win->scaley * W_W) / W_H;
+	win->image = mlx_get_data_addr(win->i_p, &(win->bpp),
+								&(win->size_line), &(win->endian));
+	plot_image(win);
 }
 
 /*
@@ -36,20 +42,21 @@ void		init_img(t_win *win)
 ** for the color to ever int position.
 */
 
-void		put_pixel_img(char *image, int x, int y, int color)
+void		put_pixel_img(t_win *win, int y, int x, int color)
 {
 	int		*img;
 
-	img = (int *)image;
-	img[(x * W_W) + y] = color;
+	img = (int *)(win->image);
+	img[(y * W_W) + x] = color;
 }
+
 
 /*
 ** This function was just an experiment to see if I could make the colors
 ** work. Now that I discovered I'm able to have a gradient, I'll try to
 ** regulate it with the mouse wheel changing a parameter.
 */
-
+/*
 void		set_gradient(t_win *win)
 {
 	int		i;
@@ -64,6 +71,8 @@ void		set_gradient(t_win *win)
 	{
 		j = -1;
 		while (++j < W_W)
-			put_pixel_img(win->image, i, j, set_color(win, i, j));
+			put_pixel_img(win->image, i, j,
+							set_color(win, i - W_H / 2, j - W_W / 2));
 	}
 }
+*/

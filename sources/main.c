@@ -21,7 +21,6 @@ t_win	*init_window(void)
 	win->m_p = mlx_init();
 	win->w_p = mlx_new_window(win->m_p, W_W, W_H, "fractol 42 - gcaixeta");
 	win->i_p = mlx_new_image(win->m_p, W_W, W_H);
-	win->draw = 0;
 	init_img(win);
 	mlx_key_hook(win->w_p, key_hook, win);
 	mlx_mouse_hook(win->w_p, mouse_hook, win);

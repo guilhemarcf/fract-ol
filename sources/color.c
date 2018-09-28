@@ -11,14 +11,28 @@
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
-
-void			set_color_incrs(t_win *win)
+/*
+int				saturate_max_incr(t_win *win)
 {
-	win->red_incr = 255 / (double)W_H;
-	win->green_incr = 255 / (double)W_H;
-	win->blue_incr = 255 / (double)W_H;
-}
+	int		red;
+	int		green;
+	int		blue;
 
+	if (win->red_incr >= win->green_incr && win->red_incr >= win->blue_incr)
+		red = 255;
+	else
+		red = 0;
+	if (win->green_incr >= win->red_incr && win->green_incr >= win->blue_incr)
+		green = 255;
+	else
+		green = 0;
+	if (win->blue_incr >= win->red_incr && win->blue_incr >= win->green_incr)
+		blue = 255;
+	else
+		blue = 0;
+	return (calc_color(red, green, blue));
+}
+*/
 /*
 ** This functions puts different values of red, green and blue into a single
 ** big endian integer.
@@ -36,24 +50,21 @@ int				calc_color(int red, int green, int blue)
 ** This functinos is still gonna change a lot!
 */
 
-int				set_color(t_win *win, int i, int j)
+int				set_color(int color, t_win *win)
 {
-	double		red;
-	double		green;
-	double		blue;
+	int		hexcolor;
+	int		red;
+	int		green;
+	int		blue;
 
-	(void)j;
-	if (win->reg1)
-		red = win->red_incr * i * win->mwparam;
+	if (color < ITERS && color > 0)
+	{
+		red = ((ITERS - color) / (double)ITERS) * (win->red_incr * 32 - 1);
+		green = ((ITERS - color) / (double)ITERS) * (win->green_incr * 32 - 1);
+		blue = ((ITERS - color) / (double)ITERS) * (win->blue_incr * 32 - 1);
+		hexcolor = calc_color(red, green, blue);
+		return (hexcolor);
+	}
 	else
-		red = 0;
-	if (win->reg2)
-		green = win->green_incr * i * win->mwparam;
-	else
-		green = 0;
-	if (win->reg3)
-		blue = win->blue_incr * i * win->mwparam;
-	else
-		blue = 0;
-	return (calc_color(red, green, blue));
+		return (0x000000);
 }

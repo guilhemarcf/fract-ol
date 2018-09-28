@@ -14,32 +14,32 @@
 
 void	error(void)
 {
-	ft_putendl("something was wrong with the input.");
+	ft_putendl("something went wrong");
 	exit(0);
 }
 
-void	plot_line(t_win *win)
-{
-	int 	dx, dy, steps, i;
-	float	xincr, yincr, x1, x2, y1, y2;
+/*
+** This function effectively plots the mandelbrot set
+*/
 
-	x1 = (float)win->x1;
-	x2 = (float)win->x2;
-	y1 = (float)win->y1;
-	y2 = (float)win->y2;
-	dx = x2 - x1;
-	dy = y2 - y1;
-	if (abs(dx) > abs(dy))
-		steps = abs(dx);
-	else
-		steps = abs(dy);
-	xincr = (float) dx / (float)steps;
-	yincr = (float) dy / (float)steps;
+void	plot_image(t_win *win)
+{
+	int		i;
+	int		j;
+	int		color;
+	double	amp;
+
 	i = -1;
-	while (++i <= steps)
+	while (++i < W_H)
 	{
-		x1 = x1 + xincr;
-		y1 = y1 + yincr;
-		mlx_pixel_put(win->m_p, win->w_p, round(x1), round(y1), 0xFFFFFF);
+		j = -1;
+		while (++j < W_W)
+		{
+			amp = iterate_mandel(win->offx + apply_scalex(j, win),
+									win->offy + apply_scaley(i, win));
+			color = set_color(amp, win);
+			put_pixel_img(win, i, j, color);
+		}
 	}
+	mlx_put_image_to_window(win->m_p, win->w_p, win->i_p, 0, 0);
 }
