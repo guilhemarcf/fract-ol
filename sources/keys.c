@@ -31,7 +31,21 @@ void	act_on_key(t_win *win)
 		change_color_incr1(win);
 	else if (win->keycode >= 7 && win->keycode <= 9)
 		change_color_incr2(win);
+	else if (win->keycode >= 123 && win->keycode <= 126)
+		change_offset(win);
 	plot_image(win);
+}
+
+void	change_offset(t_win *win)
+{
+	if (win->keycode == 123)
+		win->offx -= 0.05 * win->scalex;
+	else if (win->keycode == 126)
+		win->offy -= 0.05 * win->scaley;
+	else if (win->keycode == 124)
+		win->offx += 0.05 * win->scalex;
+	else if (win->keycode == 125)
+		win->offy += 0.05 * win->scaley;
 }
 
 void	change_fract(t_win *win)

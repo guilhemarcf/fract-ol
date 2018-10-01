@@ -22,6 +22,13 @@
 # define W_W 1350
 # define W_H 900
 # define ITERS 50
+# define ZOOM 10
+
+typedef struct	s_point
+{
+	int		x;
+	int		y;
+}				t_point;
 
 typedef struct	s_win
 {
@@ -37,13 +44,16 @@ typedef struct	s_win
 
 	int			fract;
 
-	int			instx;
-	int			insty;
-
 	double		offx;
 	double		offy;
 	double		scalex;
 	double		scaley;
+
+	t_point		p_inst;
+	t_point		pp;
+	t_point		px;
+	t_point		py;
+
 
 	int			red_incr;
 	int			green_incr;
@@ -70,7 +80,8 @@ void			plot_image(t_win *win);//, int (*f)(double, ...));
 
 int				mouse_hook(int button, int x, int y, t_win *win);
 int				motion_hook(int x, int y, t_win *win);
-void			set_scale(int button, t_win *win, int x, int y);
+void			zoom_in(t_win *win, int x, int y);
+void			zoom_out(t_win *win, int x, int y);
 
 /*
 ** Functions of the file "KEYS.C"
@@ -81,6 +92,7 @@ int				key_hook(int keycode, t_win *win);
 void			change_fract(t_win *win);
 void			change_color_incr1(t_win *win);
 void			change_color_incr2(t_win *win);
+void			change_offset(t_win *win);
 
 /*
 ** Functions of the file "IMAGES.C"
@@ -110,11 +122,7 @@ int				iterate_mandel(double y, double x);
 ** Functions of the file "SCALING.C"
 */
 
-double			apply_scalex(int j, t_win *win);
-double			apply_scaley(int i, t_win *win);
-void			set_offsetx(t_win *win, int x, int flag);
-void			set_offsety(t_win *win, int y, int flag);
-int				get_relx(int x);
-int				get_rely(int y);
+double			app_sclx(int j, t_win *win);
+double			app_scly(int i, t_win *win);
 
 #endif

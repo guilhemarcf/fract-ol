@@ -22,14 +22,14 @@ void		init_img(t_win *win)
 	win->bpp = 32;
 	win->size_line = win->bpp * W_W;
 	win->endian = 1;
-	win->scaley = 2.5;
-	win->offx = 0;
-	win->offy = 0;
-	//win->fract = 0;
+	win->offx = 0.0;
+	win->offy = 0.0;
+	win->fract = 0;
 	win->red_incr = 8;
 	win->green_incr = 8;
 	win->blue_incr = 8;
-	win->scalex = (win->scaley * W_W) / W_H;
+	win->scaley = 3.5;
+	win->scalex = (win->scaley * W_W) / (double)W_H;
 	win->image = mlx_get_data_addr(win->i_p, &(win->bpp),
 								&(win->size_line), &(win->endian));
 	plot_image(win);

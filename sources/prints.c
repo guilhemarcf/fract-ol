@@ -35,8 +35,8 @@ void	plot_image(t_win *win)
 		j = -1;
 		while (++j < W_W)
 		{
-			amp = iterate_mandel(win->offx + apply_scalex(j, win),
-									win->offy + apply_scaley(i, win));
+			amp = iterate_mandel(win->offx + app_sclx(j - (W_W / 2), win),
+									win->offy + app_scly(i - (W_H / 2), win));
 			color = set_color(amp, win);
 			put_pixel_img(win, i, j, color);
 		}

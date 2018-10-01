@@ -14,36 +14,113 @@
 
 int		motion_hook(int x, int y, t_win *win)
 {
-	win->instx = x;
-	win->insty = y;
-	//if (win->fract == 1)
-	//	plot_image(win, &iterate_julia);
+	win->p_inst.x = x;
+	win->p_inst.y = y;
 	return (1);
 }
 
 int		mouse_hook(int button, int x, int y, t_win *win)
 {
-	ft_putnbr(button);
-	set_scale(button, win, x, y);
+	printf("button: %d | x: %lf | y: %lf\n------------------------------------------\n",button, app_sclx(x, win), app_scly(y, win));
+	if (button == 4)
+	{
+		zoom_in(win, x, y);
+	}
+	else if (button == 5)
+	{
+		zoom_out(win, x, y);
+	}
 	plot_image(win);
 	return (1);
 }
 
-
-void	set_scale(int button, t_win *win, int x, int y)
+void	zoom_in(t_win *win, int x, int y)
 {
-	if (button == 4)
-	{
-		win->scaley = win->scaley * 1.05;
-		win->scalex = (win->scaley * W_W) / W_H;
-		set_offsetx(win, get_relx(x), 1);
-		set_offsety(win, get_rely(y), 1);
-	}
-	else if (button == 5)
-	{
-		win->scaley = win->scaley * 0.9523809;
-		win->scalex = (win->scaley * W_W) / W_H;
-		set_offsetx(win, get_relx(x), 0);
-		set_offsety(win, get_rely(y), 0);
-	}
+	double x_max;
+	double y_max;
+	double x_min;
+	double y_min;
+
+	x_min = app_sclx(0, win);
+	y_min = app_scly(0, win);
+	x_max = app_sclx(W_W, win);
+	y_max = app_scly(W_H, win);
+
+	win->pp.x = app_sclx(x, win);
+	win->pp.y = app_scly(y, win);
+	printf(" x_max = %lf\n y_max = %lf\n x_min = %lf\n y_min = %lf\n",
+		x_max, y_max, x_min, y_min);
+	printf(" x_range = %lf\n y_range = %lf\n",
+				(x_max - x_min), (y_max - y_min));
+	printf("--------------------------------------------------\n");
+
+
+	win->px.x = (x_max - ((x_max - win->pp.x) / (double)ZOOM));
+	win->px.y = (win->pp.y / (double)ZOOM);
+
+
+	win->py.x = (win->pp.x / (double)ZOOM);
+	win->py.y = (y_max - (((y_max - win->pp.y) / (double)ZOOM)));
+
+
+	win->scaley = win->py.y - win->px.y;
+	win->scalex = (win->scaley * W_W) / (double)W_H;
+
+
+	//win->offx = win->py.x;
+	//win->offy = win->px.y;
 }
+
+
+
+void	zoom_out(t_win *win, int x, int y)
+{
+	double x_max;
+	double y_max;
+	double x_min;
+	double y_min;
+
+	x_min = app_sclx(0, win);
+	y_min = app_scly(0, win);
+	x_max = app_sclx(W_W, win);
+	y_max = app_scly(W_H, win);
+
+	win->pp.x = app_sclx(x, win);
+	win->pp.y = app_scly(y, win);
+	printf(" x_max = %lf\n y_max = %lf\n x_min = %lf\n y_min = %lf\n",
+		x_max, y_max, x_min, y_min);
+	printf(" x_range = %lf\n y_range = %lf\n",
+				(x_max - x_min), (y_max - y_min));
+	printf("--------------------------------------------------\n");
+
+
+	win->px.x = -(x_max + ((x_max - win->pp.x) / (double)ZOOM));
+	win->px.y = (win->pp.y / (double)ZOOM);
+
+
+	win->py.x = -(win->pp.x / (double)ZOOM);
+	win->py.y = (y_max + (((y_max - win->pp.y) / (double)ZOOM)));
+
+
+	win->scaley = win->py.y - win->px.y;
+	win->scalex = (win->scaley * W_W) / (double)W_H;
+
+
+	//win->offx = win->py.x;
+	//win->offy = win->px.y;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
