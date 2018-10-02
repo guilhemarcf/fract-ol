@@ -32,11 +32,11 @@ void	act_on_key(t_win *win)
 	else if (win->keycode >= 7 && win->keycode <= 9)
 		change_color_incr2(win);
 	else if (win->keycode >= 123 && win->keycode <= 126)
-		change_offset(win);
+		change_offset_keys(win);
 	plot_image(win);
 }
 
-void	change_offset(t_win *win)
+void	change_offset_keys(t_win *win)
 {
 	if (win->keycode == 123)
 		win->offx -= 0.05 * win->scalex;

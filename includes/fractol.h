@@ -19,15 +19,15 @@
 # include <math.h>
 # include <stdio.h>
 
-# define W_W 1350
-# define W_H 900
-# define ITERS 50
+# define W_W 800
+# define W_H 600
+# define ITERS 35
 # define ZOOM 10
 
 typedef struct	s_point
 {
-	int		x;
-	int		y;
+	double		x;
+	double		y;
 }				t_point;
 
 typedef struct	s_win
@@ -73,6 +73,7 @@ int				main(void);
 
 void			error(void);
 void			plot_image(t_win *win);//, int (*f)(double, ...));
+void			print_zoom(double x_min, double x_max, double y_min, double y_max);
 
 /*
 ** Functions of the file "MOUSE.C"
@@ -92,7 +93,8 @@ int				key_hook(int keycode, t_win *win);
 void			change_fract(t_win *win);
 void			change_color_incr1(t_win *win);
 void			change_color_incr2(t_win *win);
-void			change_offset(t_win *win);
+void			change_offset_keys(t_win *win);
+void			change_offset_mouse(t_win *win, int is_zoom_in);
 
 /*
 ** Functions of the file "IMAGES.C"
@@ -106,7 +108,8 @@ void			put_pixel_img(t_win *win, int x, int y, int color);
 */
 
 int				set_color(int color, t_win *win);
-int				calc_color(int red, int green, int blue);
+int				calc_color1(int red, int green, int blue);
+int				calc_color2(int red, int green, int blue);
 
 /*
 ** Functions of the file "COMPLEX.C"

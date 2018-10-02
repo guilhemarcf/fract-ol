@@ -21,6 +21,3 @@ double		app_scly(int i, t_win *win)
 {
 	return ((i  * win->scaley) / (double)W_H);
 }
-
-
-//stackoverflow.com/questions/41796832/smooth-zoom-with-mouse-in-mandelbrot-set-c#

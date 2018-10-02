@@ -33,12 +33,22 @@ int				saturate_max_incr(t_win *win)
 	return (calc_color(red, green, blue));
 }
 */
+
+
+int				calc_color2(int red, int green, int blue)
+{
+	(void)red;
+	(void)green;
+	(void)blue;
+	return (1);
+}
+
 /*
 ** This functions puts different values of red, green and blue into a single
 ** big endian integer.
 */
 
-int				calc_color(int red, int green, int blue)
+int				calc_color1(int red, int green, int blue)
 {
 	int color;
 
@@ -59,10 +69,10 @@ int				set_color(int color, t_win *win)
 
 	if (color < ITERS && color > 0)
 	{
-		red = ((ITERS - color) / (double)ITERS) * (win->red_incr * 32 - 1);
-		green = ((ITERS - color) / (double)ITERS) * (win->green_incr * 32 - 1);
-		blue = ((ITERS - color) / (double)ITERS) * (win->blue_incr * 32 - 1);
-		hexcolor = calc_color(red, green, blue);
+		red = (color / (double)ITERS) * (win->red_incr * 32 - 1);
+		green = (color / (double)ITERS) * (win->green_incr * 32 - 1);
+		blue = (color / (double)ITERS) * (win->blue_incr * 32 - 1);
+		hexcolor = calc_color1(red, green, blue);
 		return (hexcolor);
 	}
 	else

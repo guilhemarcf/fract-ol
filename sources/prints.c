@@ -43,3 +43,12 @@ void	plot_image(t_win *win)
 	}
 	mlx_put_image_to_window(win->m_p, win->w_p, win->i_p, 0, 0);
 }
+
+void	print_zoom(double x_min, double x_max, double y_min, double y_max)
+{
+	printf(" x_max = %.20lf\n y_max = %.20lf\n x_min = %.20lf\n y_min = %.20lf\n",
+		x_max, y_max, x_min, y_min);
+	printf(" x_range = %.20lf\n y_range = %.20lf\n",
+				(x_max - x_min), (y_max - y_min));
+	printf("--------------------------------------------------\n");
+}
