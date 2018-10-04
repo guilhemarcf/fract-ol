@@ -23,8 +23,9 @@ t_win	*init_window(void)
 	win->i_p = mlx_new_image(win->m_p, W_W, W_H);
 	init_img(win);
 	mlx_key_hook(win->w_p, key_hook, win);
-	mlx_mouse_hook(win->w_p, mouse_hook, win);
 	mlx_hook(win->w_p, 6, 0, motion_hook, win);
+	mlx_hook(win->w_p, 4, 0, mouse_press, win);
+	mlx_hook(win->w_p, 5, 0, mouse_release, win);
 	mlx_loop(win->m_p);
 	return (win);
 }

@@ -25,7 +25,7 @@ void	act_on_key(t_win *win)
 	ft_putchar(' ');
 	if (win->keycode == 53)
 		exit(0);
-	else if (win->keycode == 45)
+	else if (win->keycode == 45 || win->keycode == 46)
 		change_fract(win);
 	else if (win->keycode >= 1 && win->keycode <= 3)
 		change_color_incr1(win);
@@ -33,6 +33,8 @@ void	act_on_key(t_win *win)
 		change_color_incr2(win);
 	else if (win->keycode >= 123 && win->keycode <= 126)
 		change_offset_keys(win);
+	else if (win->keycode >= 12 && win->keycode <= 17)
+		reset_img(win);
 	plot_image(win);
 }
 
@@ -50,10 +52,20 @@ void	change_offset_keys(t_win *win)
 
 void	change_fract(t_win *win)
 {
-	if (win->fract == 0)
-		win->fract = 1;
-	else
-		win->fract = 0;
+	if (win->keycode == 45)
+	{
+		if (win->fract == 0)
+			win->fract = 1;
+		else
+			win->fract = 0;
+	}
+	else if (win->keycode == 46)
+	{
+		if (win->mode == 0)
+			win->mode = 1;
+		else
+			win->mode = 0;
+	}
 }
 
 void	change_color_incr1(t_win *win)

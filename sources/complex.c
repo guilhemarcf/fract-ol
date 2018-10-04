@@ -52,7 +52,7 @@ int			iterate_mandel(double re_base, double im_base)
 	else
 		return (0);
 }
-/*
+
 int			iterate_julia(double re_base, double im_base)
 {
 	double	x;
@@ -61,8 +61,8 @@ int			iterate_julia(double re_base, double im_base)
 	double	im_itr;
 	int		i;
 
-	x = re_base;
-	y = im_base;
+	x = 0;
+	y = 0;
 	re_itr = re_base;
 	im_itr = im_base;
 	i = -1;
@@ -77,4 +77,3 @@ int			iterate_julia(double re_base, double im_base)
 	else
 		return (0);
 }
-*/

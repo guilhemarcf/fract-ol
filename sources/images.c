@@ -25,6 +25,9 @@ void		init_img(t_win *win)
 	win->offx = 0.0;
 	win->offy = 0.0;
 	win->fract = 0;
+	win->mode = 0;
+	win->move_screen = 0;
+	win->odd_read = 0;
 	win->red_incr = 8;
 	win->green_incr = 8;
 	win->blue_incr = 8;
@@ -34,6 +37,20 @@ void		init_img(t_win *win)
 								&(win->size_line), &(win->endian));
 	plot_image(win);
 }
+
+void		reset_img(t_win *win)
+{
+	win->offx = 0.0;
+	win->offy = 0.0;
+	win->fract = 0;
+	win->red_incr = 8;
+	win->green_incr = 8;
+	win->blue_incr = 8;
+	win->scaley = 3.5;
+	win->scalex = (win->scaley * W_W) / (double)W_H;
+	plot_image(win);
+}
+
 
 /*
 ** This is my current pixel put function. It takes advantage that I set the

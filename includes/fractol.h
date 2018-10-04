@@ -21,7 +21,7 @@
 
 # define W_W 800
 # define W_H 600
-# define ITERS 35
+# define ITERS 50
 # define ZOOM 10
 
 typedef struct	s_point
@@ -35,25 +35,31 @@ typedef struct	s_win
 	void		*m_p;
 	void		*w_p;
 	void		*i_p;
+
 	int			keycode;
+	int			mode;
+	int			fract;
+	int			move_screen;
+	int			odd_read;
 
 	char		*image;
 	int			bpp;
 	int			size_line;
 	int			endian;
 
-	int			fract;
-
 	double		offx;
 	double		offy;
 	double		scalex;
 	double		scaley;
+	double		x_range;
+	double		y_range;
 
 	t_point		p_inst;
+	t_point		p1;
+	t_point		p2;
 	t_point		pp;
 	t_point		px;
 	t_point		py;
-
 
 	int			red_incr;
 	int			green_incr;
@@ -83,6 +89,9 @@ int				mouse_hook(int button, int x, int y, t_win *win);
 int				motion_hook(int x, int y, t_win *win);
 void			zoom_in(t_win *win, int x, int y);
 void			zoom_out(t_win *win, int x, int y);
+int				mouse_press(int button, int x, int y, t_win *win);
+int				mouse_release(int button, int x, int y, t_win *win);
+void			clear_points(t_win *win);
 
 /*
 ** Functions of the file "KEYS.C"
@@ -102,6 +111,7 @@ void			change_offset_mouse(t_win *win, int is_zoom_in);
 
 void			init_img(t_win *win);
 void			put_pixel_img(t_win *win, int x, int y, int color);
+void			reset_img(t_win *win);
 
 /*
 ** Functions of the file "COLOR.C"
@@ -119,7 +129,7 @@ void			squarefy_complex(double re_base, double im_base,
 										double *re_res, double *im_res);
 double			module_complex(double re, double im);
 int				iterate_mandel(double y, double x);
-//int				iterate_julia(double y, double x);
+int				iterate_julia(double re_base, double im_base);
 
 /*
 ** Functions of the file "SCALING.C"
