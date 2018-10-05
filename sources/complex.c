@@ -28,7 +28,7 @@ double		module_complex(double re, double im)
 **
 */
 
-int			iterate_mandel(double re_base, double im_base)
+int			iterate_mandel(double re_base, double im_base, int iters)
 {
 	double	x;
 	double	y;
@@ -41,19 +41,19 @@ int			iterate_mandel(double re_base, double im_base)
 	re_itr = re_base;
 	im_itr = im_base;
 	i = -1;
-	while (++i < ITERS && module_complex(x, y) < 2.0)
+	while (++i < iters && module_complex(x, y) < 2.0)
 	{
 		squarefy_complex(x, y, &re_itr, &im_itr);
 		x = re_itr + re_base;
 		y = im_itr + im_base;
 	}
-	if (i < ITERS)
+	if (i < iters)
 		return (i);
 	else
 		return (0);
 }
 
-int			iterate_julia(double re_base, double im_base)
+int			iterate_julia(double re_base, double im_base, int iters, t_win *win)
 {
 	double	x;
 	double	y;
@@ -66,13 +66,13 @@ int			iterate_julia(double re_base, double im_base)
 	re_itr = re_base;
 	im_itr = im_base;
 	i = -1;
-	while (++i < ITERS && module_complex(x, y) < 2.0)
+	while (++i < iters && module_complex(x, y) < 2.0)
 	{
 		squarefy_complex(x, y, &re_itr, &im_itr);
-		x = re_itr + re_base;
-		y = im_itr + im_base;
+		x = re_itr + win->p_inst.x;
+		y = im_itr + win->p_inst.y;
 	}
-	if (i < ITERS)
+	if (i < iters)
 		return (i);
 	else
 		return (0);

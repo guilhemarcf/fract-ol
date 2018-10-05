@@ -29,7 +29,8 @@ SRC_NAME = main.c\
 			images.c\
 			color.c\
 			complex.c\
-			scaling.c
+			scaling.c\
+			zoom.c
 
 INC_NAME = fractol.h
 

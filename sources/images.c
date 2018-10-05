@@ -26,8 +26,11 @@ void		init_img(t_win *win)
 	win->offy = 0.0;
 	win->fract = 0;
 	win->mode = 0;
+	win->iters = 50;
+	win->zoom = 10;
 	win->move_screen = 0;
 	win->odd_read = 0;
+	win->color_pal = 0;
 	win->red_incr = 8;
 	win->green_incr = 8;
 	win->blue_incr = 8;
@@ -43,6 +46,12 @@ void		reset_img(t_win *win)
 	win->offx = 0.0;
 	win->offy = 0.0;
 	win->fract = 0;
+	win->mode = 0;
+	win->iters = 50;
+	win->zoom = 10;
+	win->move_screen = 0;
+	win->odd_read = 0;
+	win->color_pal = 0;
 	win->red_incr = 8;
 	win->green_incr = 8;
 	win->blue_incr = 8;

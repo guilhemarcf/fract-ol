@@ -35,7 +35,21 @@ void	act_on_key(t_win *win)
 		change_offset_keys(win);
 	else if (win->keycode >= 12 && win->keycode <= 17)
 		reset_img(win);
+	else if (win->keycode == 4 || win->keycode == 5)
+		change_color_pal(win);
+	else if (win->keycode == 0 || win->keycode == 6)
+		change_zoom(win);
+	else if (win->keycode == 38 || win->keycode == 40)
+		change_iters(win);
 	plot_image(win);
+}
+
+void	change_iters(t_win *win)
+{
+	if (win->keycode == 38 && (win->iters < 1000))
+		win->iters *= 1.025;
+	else if (win->keycode == 40 && (win->iters > 5))
+		win->iters *= 0.97560975609;
 }
 
 void	change_offset_keys(t_win *win)
@@ -109,7 +123,7 @@ void	change_color_incr2(t_win *win)
 		else
 			win->green_incr = 8;
 	}
-	else if (win->keycode == 8)
+	else if (win->keycode == 9)
 	{
 		if (win->blue_incr > 1)
 			win->blue_incr--;

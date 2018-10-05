@@ -11,70 +11,97 @@
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
-/*
-int				saturate_max_incr(t_win *win)
-{
-	int		red;
-	int		green;
-	int		blue;
-
-	if (win->red_incr >= win->green_incr && win->red_incr >= win->blue_incr)
-		red = 255;
-	else
-		red = 0;
-	if (win->green_incr >= win->red_incr && win->green_incr >= win->blue_incr)
-		green = 255;
-	else
-		green = 0;
-	if (win->blue_incr >= win->red_incr && win->blue_incr >= win->green_incr)
-		blue = 255;
-	else
-		blue = 0;
-	return (calc_color(red, green, blue));
-}
-*/
-
-
-int				calc_color2(int red, int green, int blue)
-{
-	(void)red;
-	(void)green;
-	(void)blue;
-	return (1);
-}
-
-/*
-** This functions puts different values of red, green and blue into a single
-** big endian integer.
-*/
-
-int				calc_color1(int red, int green, int blue)
-{
-	int color;
-
-	color = red << 16 | green << 8 | blue;
-	return (color);
-}
 
 /*
 ** This functinos is still gonna change a lot!
 */
 
-int				set_color(int color, t_win *win)
+int				set_color1(int ite, t_win *win)
 {
 	int		hexcolor;
 	int		red;
 	int		green;
 	int		blue;
 
-	if (color < ITERS && color > 0)
+	if (ite < win->iters && ite > 0)
 	{
-		red = (color / (double)ITERS) * (win->red_incr * 32 - 1);
-		green = (color / (double)ITERS) * (win->green_incr * 32 - 1);
-		blue = (color / (double)ITERS) * (win->blue_incr * 32 - 1);
-		hexcolor = calc_color1(red, green, blue);
+		red = (ite / (double)win->iters) * (win->red_incr * 32 - 1);
+		green = (ite / (double)win->iters) * (win->green_incr * 32 - 1);
+		blue = (ite / (double)win->iters) * (win->blue_incr * 32 - 1);
+		hexcolor = red << 16 | green << 8 | blue;
 		return (hexcolor);
 	}
 	else
 		return (0x000000);
+}
+
+
+int				set_color2(int ite, t_win *win)
+{
+	int		hexcolor;
+	int		red;
+	int		green;
+	int		blue;
+
+	if (ite < win->iters && ite > 0)
+	{
+		red = ((double)win->iters - (ite / (double)win->iters)) *
+							(win->red_incr * 32 - 1);
+		green = ((double)win->iters - (ite / (double)win->iters)) *
+							(win->green_incr * 32 - 1);
+		blue = ((double)win->iters - (ite / (double)win->iters)) *
+							(win->blue_incr * 32 - 1);
+		hexcolor = red << 16 | green << 8 | blue;
+		return (hexcolor);
+	}
+	else
+		return (0x000000);
+}
+
+
+int				set_color3(int ite, t_win *win)
+{
+	int		hexcolor;
+
+	(void)win;
+	if (ite < win->iters && ite > 0)
+	{
+		hexcolor = 16777216 * (ite / (double)win->iters);
+		return (hexcolor);
+	}
+	else
+		return (0x000000);
+}
+
+int				set_color4(int ite, t_win *win)
+{
+	int		hexcolor;
+
+	(void)win;
+	if (ite < win->iters && ite > 0)
+	{
+		hexcolor = 16777216 * ((win->iters - ite) / (double)win->iters);
+		return (hexcolor);
+	}
+	else
+		return (0x000000);
+}
+
+
+void	change_color_pal(t_win *win)
+{
+	if (win->keycode == 4)
+	{
+		if (win->color_pal < 3)
+			win->color_pal++;
+		else
+			win->color_pal = 0;
+	}
+	else if (win->keycode == 5)
+	{
+		if (win->color_pal > 0)
+			win->color_pal--;
+		else
+			win->color_pal = 3;
+	}
 }

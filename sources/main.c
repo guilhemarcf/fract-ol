@@ -12,11 +12,21 @@
 
 #include "./../includes/fractol.h"
 
+t_win	*set_window(void)
+{
+	t_win	*newin;
+
+	if ((newin = (t_win *)malloc(sizeof(t_win))) == NULL)
+		return (NULL);
+	else
+		return (newin);
+}
+
 t_win	*init_window(void)
 {
 	t_win	*win;
 
-	if ((win = (t_win *)malloc(sizeof(t_win))) == NULL)
+	if ((win = set_window()) == NULL)
 		return (NULL);
 	win->m_p = mlx_init();
 	win->w_p = mlx_new_window(win->m_p, W_W, W_H, "fractol 42 - gcaixeta");

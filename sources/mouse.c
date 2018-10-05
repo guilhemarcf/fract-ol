@@ -43,104 +43,38 @@ void	clear_points(t_win *win)
 	win->p2.y = app_scly(W_H / 2, win);
 }
 
-int		motion_hook(int x, int y, t_win *win)
+void	mouse_follow(int x, int y, t_win *win)
 {
-	if (win->move_screen == 1)
+	win->p_inst.x = app_sclx(x, win);
+	win->p_inst.y = app_scly(y, win);
+	if (win->odd_read == 0)
 	{
-		win->p_inst.x = app_sclx(x, win);
-		win->p_inst.y = app_scly(y, win);
-		if (win->odd_read == 0)
-		{
-			win->p1.x = win->p_inst.x;
-			win->p1.y = win->p_inst.y;
-			win->odd_read = 1;
-		}
-		else
-		{
-			win->p2.x = win->p_inst.x;
-			win->p2.y = win->p_inst.y;
-			win->x_range = win->p1.x - win->p2.x;
-			win->y_range = win->p1.y - win->p2.y;
-			win->offx += 4 * win->x_range;
-			win->offy += 4 * win->y_range;
-			win->odd_read = 0;
-			plot_image(win);
-		}
-	}
-	return (1);
-}
-
-void	change_offset_mouse(t_win *win, int is_zoom_in)
-{
-	if (is_zoom_in)
-	{
-		if (win->pp.x > app_sclx(W_W / 2, win))
-			win->offx += (win->pp.x - app_sclx(W_W / 2, win)) / (double)ZOOM;
-		else
-			win->offx -= (app_sclx(W_W / 2, win) - win->pp.x) / (double)ZOOM;
-		if (win->pp.y > app_scly(W_H / 2, win))
-			win->offy += (win->pp.y - app_scly(W_H / 2, win)) / (double)ZOOM;
-		else
-			win->offy -= (app_scly(W_H / 2, win) - win->pp.y) / (double)ZOOM;
+		win->p1.x = win->p_inst.x;
+		win->p1.y = win->p_inst.y;
+		win->odd_read = 1;
 	}
 	else
 	{
-		if (win->pp.x > app_sclx(W_W / 2, win))
-			win->offx -= (win->pp.x - app_sclx(W_W / 2, win)) / (double)ZOOM;
-		else
-			win->offx += (app_sclx(W_W / 2, win) - win->pp.x) / (double)ZOOM;
-		if (win->pp.y > app_scly(W_H / 2, win))
-			win->offy -= (win->pp.y - app_scly(W_H / 2, win)) / (double)ZOOM;
-		else
-			win->offy += (app_scly(W_H / 2, win) - win->pp.y) / (double)ZOOM;
+		win->p2.x = win->p_inst.x;
+		win->p2.y = win->p_inst.y;
+		win->x_range = win->p1.x - win->p2.x;
+		win->y_range = win->p1.y - win->p2.y;
+		win->offx += 4 * win->x_range;
+		win->offy += 4 * win->y_range;
+		win->odd_read = 0;
+		plot_image(win);
 	}
 }
 
-void	zoom_in(t_win *win, int x, int y)
+int		motion_hook(int x, int y, t_win *win)
 {
-	double x_max;
-	double y_max;
-	double x_min;
-	double y_min;
-
-	x_min = app_sclx(0, win);
-	y_min = app_scly(0, win);
-	x_max = app_sclx(W_W, win);
-	y_max = app_scly(W_H, win);
-	win->pp.x = app_sclx(x, win);
-	win->pp.y = app_scly(y, win);
-	print_zoom(x_min, x_max, y_min, y_max);
-	change_offset_mouse(win, 1);
-	win->px.x = (x_max - ((x_max - win->pp.x) / (double)ZOOM));
-	win->px.y = (win->pp.y / (double)ZOOM);
-	win->py.x = (win->pp.x / (double)ZOOM);
-	win->py.y = (y_max - (((y_max - win->pp.y) / (double)ZOOM)));
-	win->scaley = win->py.y - win->px.y;
-	win->scalex = (win->scaley * W_W) / (double)W_H;
+	if (win->move_screen == 1)
+		mouse_follow(x, y, win);
+	if (win->fract == 1)
+		plot_image(win);
+	return (1);
 }
 
-void	zoom_out(t_win *win, int x, int y)
-{
-	double x_max;
-	double y_max;
-	double x_min;
-	double y_min;
-
-	x_min = app_sclx(0, win);
-	y_min = app_scly(0, win);
-	x_max = app_sclx(W_W, win);
-	y_max = app_scly(W_H, win);
-	win->pp.x = app_sclx(x, win);
-	win->pp.y = app_scly(y, win);
-	print_zoom(x_min, x_max, y_min, y_max);
-	change_offset_mouse(win, 0);
-	win->px.x = (x_max + ((x_max - win->pp.x) / (double)ZOOM));
-	win->px.y = -1 * (win->pp.y / (double)ZOOM);
-	win->py.x = -1 * (win->pp.x / (double)ZOOM);
-	win->py.y = (y_max + (((y_max - win->pp.y) / (double)ZOOM)));
-	win->scaley = win->py.y - win->px.y;
-	win->scalex = (win->scaley * W_W) / (double)W_H;
-}
 
 
 
