@@ -12,42 +12,11 @@
 
 #include "./../includes/fractol.h"
 
-/*
-** This functions sets the basic info needed to deal with the image in the
-** very beginning of the manipulation.
-*/
-
-void		init_img(t_win *win)
-{
-	win->bpp = 32;
-	win->size_line = win->bpp * W_W;
-	win->endian = 1;
-	win->offx = 0.0;
-	win->offy = 0.0;
-	win->fract = 0;
-	win->mode = 0;
-	win->iters = 50;
-	win->zoom = 10;
-	win->mandelheads = 1;
-	win->julia_enable = 1;
-	win->move_screen = 0;
-	win->odd_read = 0;
-	win->color_pal = 0;
-	win->red_incr = 8;
-	win->green_incr = 8;
-	win->blue_incr = 8;
-	win->scaley = 3.5;
-	win->scalex = (win->scaley * W_W) / (double)W_H;
-	win->image = mlx_get_data_addr(win->i_p, &(win->bpp),
-								&(win->size_line), &(win->endian));
-	plot_image(win);
-}
-
 void		reset_img(t_win *win)
 {
 	win->offx = 0.0;
 	win->offy = 0.0;
-	win->fract = 0;
+	win->fract = win->fract_beckup;
 	win->mode = 0;
 	win->iters = 50;
 	win->zoom = 10;
@@ -63,7 +32,6 @@ void		reset_img(t_win *win)
 	win->scalex = (win->scaley * W_W) / (double)W_H;
 	plot_image(win);
 }
-
 
 /*
 ** This is my current pixel put function. It takes advantage that I set the
@@ -80,29 +48,46 @@ void		put_pixel_img(t_win *win, int y, int x, int color)
 	img[(y * W_W) + x] = color;
 }
 
-
-/*
-** This function was just an experiment to see if I could make the colors
-** work. Now that I discovered I'm able to have a gradient, I'll try to
-** regulate it with the mouse wheel changing a parameter.
-*/
-/*
-void		set_gradient(t_win *win)
+void	change_mandelheads(t_win *win)
 {
-	int		i;
-	int		j;
-	int		*img;
-	
-	win->image = mlx_get_data_addr(win->i_p, &(win->bpp),
-								&(win->size_line), &(win->endian));
-	img = (int *)(win->image);
-	i = -1;
-	while (++i < W_H)
+	if (win->keycode == 27)
 	{
-		j = -1;
-		while (++j < W_W)
-			put_pixel_img(win->image, i, j,
-							set_color(win, i - W_H / 2, j - W_W / 2));
+		if (win->mandelheads > 0)
+			win->mandelheads--;
+		else
+			win->mandelheads = 7;
+	}
+	else if (win->keycode == 24)
+	{
+		if (win->mandelheads < 7)
+			win->mandelheads++;
+		else
+			win->mandelheads = 0;
 	}
 }
-*/
+
+void	change_iters(t_win *win)
+{
+	if (win->keycode == 38 && (win->iters < 1000))
+		win->iters *= 1.025;
+	else if (win->keycode == 40 && (win->iters > 5))
+		win->iters *= 0.97560975609;
+}
+
+void	change_fract(t_win *win)
+{
+	if (win->keycode == 45)
+	{
+		if (win->fract > 0)
+			win->fract--;
+		else
+			win->fract = 4;
+	}
+	else if (win->keycode == 46)
+	{
+		if (win->fract < 4)
+			win->fract++;
+		else
+			win->fract = 0;
+	}
+}

@@ -30,7 +30,11 @@ SRC_NAME = main.c\
 			color.c\
 			complex.c\
 			scaling.c\
-			zoom.c
+			zoom.c\
+			plot_image.c\
+			fractals.c\
+			color_ext.c\
+			julia_ext.c
 
 INC_NAME = fractol.h
 

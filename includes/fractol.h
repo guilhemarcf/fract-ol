@@ -19,8 +19,8 @@
 # include <math.h>
 # include <stdio.h>
 
-# define W_W 800
-# define W_H 600
+# define W_W 1300
+# define W_H 1000
 
 typedef struct	s_point
 {
@@ -48,6 +48,8 @@ typedef struct	s_win
 	int			color_pal;
 	int			julia_enable;
 	int			mandelheads;
+
+	int			fract_beckup;
 
 	char		*image;
 	int			bpp;
@@ -77,87 +79,115 @@ typedef struct	s_win
 }				t_win;
 
 /*
-** Functions of the file "MAIN.C"
+** Functions from "MAIN.C" 
 */
 
-t_win			*init_window(void);
-int				main(void);
+t_win			*set_window(void);
+t_win			*init_window(int fracnum);
+void			init_img(t_win *win, int fracnum);
+int				main(int ac, char **av);
 
 /*
-** Functions of the file "PRINTS.C"
+** Functions from "IMAGES.C"
 */
 
-void			error(void);
-void			plot_image(t_win *win);
-int				get_iterations(t_win *win, int i, int j);
-
-/*
-** Functions of the file "MOUSE.C"
-*/
-
-int				mouse_hook(int button, int x, int y, t_win *win);
-int				motion_hook(int x, int y, t_win *win);
-int				mouse_press(int button, int x, int y, t_win *win);
-int				mouse_release(int button, int x, int y, t_win *win);
-void			clear_points(t_win *win);
-
-/*
-** Functions of the file "KEYS.C"
-*/
-
-void			act_on_key(t_win *win);
-int				key_hook(int keycode, t_win *win);
-void			change_fract(t_win *win);
-void			change_color_incr1(t_win *win);
-void			change_color_incr2(t_win *win);
-void			change_offset_keys(t_win *win);
-void			change_iters(t_win *win);
-
-
-/*
-** Functions of the file "IMAGES.C"
-*/
-
-void			init_img(t_win *win);
-void			put_pixel_img(t_win *win, int x, int y, int color);
 void			reset_img(t_win *win);
+void			put_pixel_img(t_win *win, int y, int x, int color);
+void			change_mandelheads(t_win *win);
+void			change_iters(t_win *win);
+void			change_fract(t_win *win);
 
 /*
-** Functions of the file "COLOR.C"
+** Functions from "PLOT_IMAGE.C"
 */
 
-int				set_color1(int color, t_win *win);
-int				set_color2(int color, t_win *win);
-int				set_color3(int color, t_win *win);
-int				set_color4(int ite, t_win *win);
-void			change_color_pal(t_win *win);
+int				get_iterations(t_win *win, int i, int j);
+void			plot_image(t_win *win);
 
 /*
-** Functions of the file "COMPLEX.C"
+** Functions from "FRACTALS.C"
 */
 
-t_complex		squarefy_complex(t_complex z);
 int				iterate_mandel(double re_base, double im_base, t_win *win);
+int				iterate_julia(double re_base, double im_base, t_win *win);
 int				iterate_tricorn1(double re_base, double im_base, t_win *win);
 int				iterate_tricorn2(double re_base, double im_base, t_win *win);
-int				iterate_julia(double re_base, double im_base, t_win *win);
 int				iterate_ship(double re_base, double im_base, t_win *win);
 
 /*
-** Functions of the file "SCALING.C"
+** Functions from "JULIA_EXT.C"
+*/
+
+void			able_julia(t_win *win);
+void			follow_julia(int x, int y, t_win *win);
+
+/*
+** Functions from "COMPLEX.C"
+*/
+
+t_complex		multiply_complex(t_complex z1, t_complex z2);
+t_complex		pow_complex(t_complex z, int power);
+t_complex		sum_complex(t_complex z1, t_complex z2);
+t_complex		get_complex(t_complex *z, double re, double im);
+int				module_smaller_than_2(t_complex z);
+
+/*
+** Functions from "SCALING.C"
 */
 
 double			app_sclx(int j, t_win *win);
 double			app_scly(int i, t_win *win);
 
 /*
-** Functions of the file "ZOOM.C"
+** Functions from "COLOR.C"
 */
 
-void			zoom_in(t_win *win, int x, int y);
-void			zoom_out(t_win *win, int x, int y);
+int				set_color1(int ite, t_win *win);
+int				set_color2(int ite, t_win *win);
+int				set_color3(int ite, t_win *win);
+int				set_color4(int ite, t_win *win);
+
+/*
+** Functions from "COLOR_EXT.C"
+*/
+
+void			change_color_incr_up(t_win *win);
+void			change_color_incr_down(t_win *win);
+void			change_color_pal(t_win *win);
+
+/*
+** Functions from "MOUSE.C"
+*/
+
+int				motion_hook(int x, int y, t_win *win);
+void			mouse_follow(int x, int y, t_win *win);
+int				mouse_press(int button, int x, int y, t_win *win);
+int				mouse_release(int button, int x, int y, t_win *win);
+void			clear_points(t_win *win);
+
+/*
+** Functions from "ZOOM.C"
+*/
+
+void			change_zoom(t_win *win);
 void			zoom_in_offset_mouse(t_win *win);
 void			zoom_out_offset_mouse(t_win *win);
-void			change_zoom(t_win *win);
+void			zoom_in(t_win *win, int x, int y);
+void			zoom_out(t_win *win, int x, int y);
+
+/*
+** Functions from "KEYS.C"
+*/
+
+int				key_hook(int keycode, t_win *win);
+void			act_on_key(t_win *win);
+void			change_offset_keys(t_win *win);
+
+/*
+** Functions from "PRINTS.C"
+*/
+
+void			error(void);
+void			usage(void);
 
 #endif

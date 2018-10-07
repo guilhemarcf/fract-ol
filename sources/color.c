@@ -12,10 +12,6 @@
 
 #include "./../includes/fractol.h"
 
-/*
-** This functinos is still gonna change a lot!
-*/
-
 int				set_color1(int ite, t_win *win)
 {
 	int		hexcolor;
@@ -23,7 +19,7 @@ int				set_color1(int ite, t_win *win)
 	int		green;
 	int		blue;
 
-	if (ite < win->iters && ite > 0)
+	if (ite < win->iters)
 	{
 		red = (ite / (double)win->iters) * (win->red_incr * 32 - 1);
 		green = (ite / (double)win->iters) * (win->green_incr * 32 - 1);
@@ -32,30 +28,16 @@ int				set_color1(int ite, t_win *win)
 		return (hexcolor);
 	}
 	else
-		return (0x000000);
+		return (0xFFFFFF);
 }
 
 
 int				set_color2(int ite, t_win *win)
 {
-	int		hexcolor;
-	int		red;
-	int		green;
-	int		blue;
-
-	if (ite < win->iters && ite > 0)
-	{
-		red = (int)((double)win->iters - (ite / (double)win->iters)) *
-							(win->red_incr * 32 - 1);
-		green = (int)((double)win->iters - (ite / (double)win->iters)) *
-							(win->green_incr * 32 - 1);
-		blue = (int)((double)win->iters - (ite / (double)win->iters)) *
-							(win->blue_incr * 32 - 1);
-		hexcolor = red << 16 | green << 8 | blue;
-		return (hexcolor);
-	}
+	if (ite < win->iters)
+		return ((0x0000FF % (int)win->iters) << ite);
 	else
-		return (0x000000);
+		return (0xFFFFFF);
 }
 
 
@@ -64,13 +46,13 @@ int				set_color3(int ite, t_win *win)
 	int		hexcolor;
 
 	(void)win;
-	if (ite < win->iters && ite > 0)
+	if (ite < win->iters)
 	{
 		hexcolor = 16777216 * (ite / (double)win->iters);
 		return (hexcolor);
 	}
 	else
-		return (0x000000);
+		return (0xFFFFFF);
 }
 
 int				set_color4(int ite, t_win *win)
@@ -78,30 +60,11 @@ int				set_color4(int ite, t_win *win)
 	int		hexcolor;
 
 	(void)win;
-	if (ite < win->iters && ite > 0)
+	if (ite < win->iters)
 	{
 		hexcolor = 16777216 * ((win->iters - ite) / (double)win->iters);
 		return (hexcolor);
 	}
 	else
-		return (0x000000);
-}
-
-
-void	change_color_pal(t_win *win)
-{
-	if (win->keycode == 4)
-	{
-		if (win->color_pal < 3)
-			win->color_pal++;
-		else
-			win->color_pal = 0;
-	}
-	else if (win->keycode == 5)
-	{
-		if (win->color_pal > 0)
-			win->color_pal--;
-		else
-			win->color_pal = 3;
-	}
+		return (0xFFFFFF);
 }

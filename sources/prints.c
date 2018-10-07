@@ -14,60 +14,27 @@
 
 void	error(void)
 {
-	ft_putendl("something went wrong");
+	ft_putstr("Error: Something went wrong in the system.\n");
+	ft_putstr("Don't be sad, it's not your fault\n");
 	exit(0);
 }
 
-/*
-** This function effectively plots the mandelbrot set
-*/
-
-int		get_iterations(t_win *win, int i, int j)
+void	usage(void)
 {
-	int	ite;
-
-	if (win->fract == 0)
-		ite = iterate_mandel(win->offx + app_sclx(j - (W_W / 2), win),
-						win->offy + app_scly(i - (W_H / 2), win), win);
-	else if (win->fract == 1)
-		ite = iterate_julia(win->offx + app_sclx(j - (W_W / 2), win),
-						win->offy + app_scly(i - (W_H / 2), win), win);
-	else if (win->fract == 2)
-		ite = iterate_tricorn1(win->offx + app_sclx(j - (W_W / 2), win),
-						win->offy + app_scly(i - (W_H / 2), win), win);
-	else if (win->fract == 3)
-		ite = iterate_tricorn2(win->offx + app_sclx(j - (W_W / 2), win),
-						win->offy + app_scly(i - (W_H / 2), win), win);
-	else if (win->fract == 4)
-		ite = iterate_ship(win->offx + app_sclx(j - (W_W / 2), win),
-						win->offy + app_scly(i - (W_H / 2), win), win);
-	else
-		ite = 1;
-	return (ite);
+	ft_putstr("Usage: ./fract\'ol [fractal number1] [fractal number2]\n\n");
+	ft_putstr("You can choose between:\n1 - Mandelbrot Set\n");
+	ft_putstr("2 - Julia Set\n3 - Original Mandelbar (Tricorn Set)\n");
+	ft_putstr("4 - Modified Mandelbar\n5 - Burning Ship Set\n");
+	ft_putstr("You can view one or two fractals at a time.\n");
+	exit(0);
 }
 
-void	plot_image(t_win *win)
+void	print_instr(t_win *win)
 {
-	int		i;
-	int		j;
-	int		ite;
-
-	i = -1;
-	while (++i < W_H)
-	{
-		j = -1;
-		while (++j < W_W)
-		{
-			ite = get_iterations(win, i, j);
-			if (win->color_pal == 0)
-				put_pixel_img(win, i, j, set_color1(ite, win));
-			else if (win->color_pal == 1)
-				put_pixel_img(win, i, j, set_color2(ite, win));
-			else if (win->color_pal == 2)
-				put_pixel_img(win, i, j, set_color3(ite, win));
-			else if (win->color_pal == 3)
-				put_pixel_img(win, i, j, set_color4(ite, win));
-		}
-	}
-	mlx_put_image_to_window(win->m_p, win->w_p, win->i_p, 0, 0);
+	mlx_string_put(win->m_p, win->w_p, W_W / 15, W_H / 15, 0xFFFFFF,
+					"\"ESC\" -> exit | \"A\" and \"Z\" -> zooming factor");
+	mlx_string_put(win->m_p, win->w_p, W_W / 15, W_H / 15 + 20, 0xFFFFFF,
+					"\"S\", \"D\", \"F\", \"X\", \"C\", \"V\" -> RGB");
+	mlx_string_put(win->m_p, win->w_p, W_W / 15, W_H / 15 + 40, 0xFFFFFF,
+					"\"ESC\" -> exit | \"A\" and \"Z\" -> zooming factor");
 }
