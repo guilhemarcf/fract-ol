@@ -28,12 +28,19 @@ int		get_iterations(t_win *win, int i, int j)
 
 	if (win->fract == 0)
 		ite = iterate_mandel(win->offx + app_sclx(j - (W_W / 2), win),
-									win->offy + app_scly(i - (W_H / 2), win),
-																win->iters);
+						win->offy + app_scly(i - (W_H / 2), win), win);
 	else if (win->fract == 1)
 		ite = iterate_julia(win->offx + app_sclx(j - (W_W / 2), win),
-									win->offy + app_scly(i - (W_H / 2), win),
-															win->iters, win);
+						win->offy + app_scly(i - (W_H / 2), win), win);
+	else if (win->fract == 2)
+		ite = iterate_tricorn1(win->offx + app_sclx(j - (W_W / 2), win),
+						win->offy + app_scly(i - (W_H / 2), win), win);
+	else if (win->fract == 3)
+		ite = iterate_tricorn2(win->offx + app_sclx(j - (W_W / 2), win),
+						win->offy + app_scly(i - (W_H / 2), win), win);
+	else if (win->fract == 4)
+		ite = iterate_ship(win->offx + app_sclx(j - (W_W / 2), win),
+						win->offy + app_scly(i - (W_H / 2), win), win);
 	else
 		ite = 1;
 	return (ite);

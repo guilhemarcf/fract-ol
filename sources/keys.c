@@ -19,14 +19,44 @@ int		key_hook(int keycode, t_win *win)
 	return (keycode);
 }
 
+void	able_julia(t_win *win)
+{
+	if (win->julia_enable == 0)
+		win->julia_enable = 1;
+	else
+		win->julia_enable = 0;
+}
+
+void	change_mandelheads(t_win *win)
+{
+	if (win->keycode == 27)
+	{
+		if (win->mandelheads > 0)
+			win->mandelheads--;
+		else
+			win->mandelheads = 12;
+	}
+	else if (win->keycode == 24)
+	{
+		if (win->mandelheads < 12)
+			win->mandelheads++;
+		else
+			win->mandelheads = 0;
+	}
+}
+
 void	act_on_key(t_win *win)
 {
 	ft_putnbr(win->keycode);
 	ft_putchar(' ');
 	if (win->keycode == 53)
 		exit(0);
+	else if (win->keycode == 14)
+		able_julia(win);
 	else if (win->keycode == 45 || win->keycode == 46)
 		change_fract(win);
+	else if (win->keycode == 24 || win->keycode == 27)
+		change_mandelheads(win);
 	else if (win->keycode >= 1 && win->keycode <= 3)
 		change_color_incr1(win);
 	else if (win->keycode >= 7 && win->keycode <= 9)
@@ -68,17 +98,17 @@ void	change_fract(t_win *win)
 {
 	if (win->keycode == 45)
 	{
-		if (win->fract == 0)
-			win->fract = 1;
+		if (win->fract > 0)
+			win->fract--;
 		else
-			win->fract = 0;
+			win->fract = 4;
 	}
 	else if (win->keycode == 46)
 	{
-		if (win->mode == 0)
-			win->mode = 1;
+		if (win->fract < 4)
+			win->fract++;
 		else
-			win->mode = 0;
+			win->fract = 0;
 	}
 }
 

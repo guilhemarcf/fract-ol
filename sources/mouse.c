@@ -66,12 +66,22 @@ void	mouse_follow(int x, int y, t_win *win)
 	}
 }
 
+void	follow_julia(int x, int y, t_win *win)
+{
+	if (win->julia_enable)
+	{
+		win->p_julia.x = app_sclx(x - W_W / 2, win);
+		win->p_julia.y = app_scly(y - W_H / 2, win);
+		plot_image(win);
+	}
+}
+
 int		motion_hook(int x, int y, t_win *win)
 {
 	if (win->move_screen == 1)
 		mouse_follow(x, y, win);
-	if (win->fract == 1)
-		plot_image(win);
+	else if (win->fract == 1)
+		follow_julia(x, y, win);
 	return (1);
 }
 

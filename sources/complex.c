@@ -12,68 +12,155 @@
 
 #include "./../includes/fractol.h"
 
-void		squarefy_complex(double re_base, double im_base,
-										double *re_res, double *im_res)
+t_complex	multiply_complex(t_complex z1, t_complex z2)
 {
-	*re_res = (re_base * re_base) - (im_base * im_base);
-	*im_res = 2 * re_base * im_base;
+	t_complex result;
+
+	result.re = z1.re * z2.re - z1.im * z2.im;
+	result.im = z1.re * z2.im + z2.re * z1.im;
+	return (result);
 }
 
-double		module_complex(double re, double im)
+t_complex	pow_complex(t_complex z, int power)
 {
-	return (sqrt((re * re) + (im * im)));
-}
+	int			i;
+	t_complex	result;
 
-/*
-**
-*/
-
-int			iterate_mandel(double re_base, double im_base, int iters)
-{
-	double	x;
-	double	y;
-	double	re_itr;
-	double	im_itr;
-	int		i;
-
-	x = 0;
-	y = 0;
-	re_itr = re_base;
-	im_itr = im_base;
-	i = -1;
-	while (++i < iters && module_complex(x, y) < 2.0)
+	result = z;
+	i = 1;
+	while (i < power)
 	{
-		squarefy_complex(x, y, &re_itr, &im_itr);
-		x = re_itr + re_base;
-		y = im_itr + im_base;
+		result = multiply_complex(result, z);
+		i++;
 	}
-	if (i < iters)
+	return (result);
+}
+
+
+t_complex	sum_complex(t_complex z1, t_complex z2)
+{
+	z1.re = z1.re + z2.re;
+	z1.im = z1.im + z2.im;
+	return (z1);
+}
+
+int			module_smaller_than_2(t_complex z)
+{
+	if (z.re * z.re + z.im * z.im > 4.0)
+		return (0);
+	else
+		return (1);
+}
+
+t_complex	get_complex(t_complex *z, double re, double im)
+{
+	z->re = re;
+	z->im = im;
+	return (*z);
+}
+
+int			iterate_mandel(double re_base, double im_base, t_win *win)
+{
+	t_complex	z;
+	t_complex	z_itr;
+	int			i;
+
+	z = get_complex(&z, 0, 0);
+	z_itr = get_complex(&z_itr, re_base, im_base);
+	i = -1;
+	while (++i < win->iters && module_smaller_than_2(z))
+	{
+		z = sum_complex(pow_complex(z, win->mandelheads + 1), z_itr);
+	}
+	if (i < win->iters)
 		return (i);
 	else
 		return (0);
 }
 
-int			iterate_julia(double re_base, double im_base, int iters, t_win *win)
+int			iterate_julia(double re_base, double im_base, t_win *win)
 {
-	double	x;
-	double	y;
-	double	re_itr;
-	double	im_itr;
-	int		i;
+	t_complex	z;
+	t_complex	z_itr;
+	int			i;
 
-	x = 0;
-	y = 0;
-	re_itr = re_base;
-	im_itr = im_base;
+	z = get_complex(&z, re_base, im_base);
+	z_itr = get_complex(&z_itr, win->p_julia.x, win->p_julia.y);
 	i = -1;
-	while (++i < iters && module_complex(x, y) < 2.0)
+	while (++i < win->iters && module_smaller_than_2(z))
 	{
-		squarefy_complex(x, y, &re_itr, &im_itr);
-		x = re_itr + win->p_inst.x;
-		y = im_itr + win->p_inst.y;
+		z = sum_complex(pow_complex(z, win->mandelheads + 1), z_itr);
 	}
-	if (i < iters)
+	if (i < win->iters)
 		return (i);
 	else
 		return (0);
 }
+
+int			iterate_tricorn1(double re_base, double im_base, t_win *win)
+{
+	t_complex	z;
+	t_complex	z_itr;
+	double		re_temp;
+	int			i;
+
+	z = get_complex(&z, re_base, im_base);
+	z_itr = get_complex(&z_itr, re_base, im_base);
+	i = -1;
+	while (++i < win->iters && module_smaller_than_2(z))
+	{
+		re_temp = z.re * z.re - z.im * z.im + z.re;
+		z.im = z.im - 2 * z.re * z.im;
+		z.re = re_temp;
+	}
+	if (i < win->iters)
+		return (i);
+	else
+		return (0);
+}
+
+int			iterate_tricorn2(double re_base, double im_base, t_win *win)
+{
+	t_complex	z;
+	t_complex	z_itr;
+	double		re_temp;
+	int			i;
+
+	z = get_complex(&z, re_base, im_base);
+	z_itr = get_complex(&z_itr, re_base, im_base);
+	i = -1;
+	while (++i < win->iters && module_smaller_than_2(z))
+	{
+		re_temp = z.re * z.re - z.im * z.im + z_itr.re;
+		z.im = z_itr.im - 2 * z.re * z.im;
+		z.re = re_temp;
+	}
+	if (i < win->iters)
+		return (i);
+	else
+		return (0);
+}
+
+
+int			iterate_ship(double re_base, double im_base, t_win *win)
+{
+	t_complex	z;
+	t_complex	z_itr;
+	double		re_temp;
+	int			i;
+
+	z = get_complex(&z, re_base, im_base);
+	z_itr = get_complex(&z_itr, re_base, im_base);
+	i = -1;
+	while (++i < win->iters && module_smaller_than_2(z))
+	{
+		re_temp = z.re * z.re - z.im * z.im + z_itr.re;
+		z.im = fabs(2 * z.im * z.re) + z_itr.im;
+		z.re = fabs(re_temp);
+	}
+	if (i < win->iters)
+		return (i);
+	else
+		return (0);
+}
+

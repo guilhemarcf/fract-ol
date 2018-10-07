@@ -28,6 +28,8 @@ void		init_img(t_win *win)
 	win->mode = 0;
 	win->iters = 50;
 	win->zoom = 10;
+	win->mandelheads = 1;
+	win->julia_enable = 1;
 	win->move_screen = 0;
 	win->odd_read = 0;
 	win->color_pal = 0;
@@ -49,6 +51,8 @@ void		reset_img(t_win *win)
 	win->mode = 0;
 	win->iters = 50;
 	win->zoom = 10;
+	win->julia_enable = 1;
+	win->mandelheads = 1;
 	win->move_screen = 0;
 	win->odd_read = 0;
 	win->color_pal = 0;

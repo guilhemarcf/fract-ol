@@ -28,6 +28,12 @@ typedef struct	s_point
 	double		y;
 }				t_point;
 
+typedef struct	s_complex
+{
+	double		re;
+	double		im;
+}				t_complex;
+
 typedef struct	s_win
 {
 	void		*m_p;
@@ -40,6 +46,8 @@ typedef struct	s_win
 	int			move_screen;
 	int			odd_read;
 	int			color_pal;
+	int			julia_enable;
+	int			mandelheads;
 
 	char		*image;
 	int			bpp;
@@ -56,6 +64,7 @@ typedef struct	s_win
 	double		y_range;
 
 	t_point		p_inst;
+	t_point		p_julia;
 	t_point		p1;
 	t_point		p2;
 	t_point		pp;
@@ -127,12 +136,12 @@ void			change_color_pal(t_win *win);
 ** Functions of the file "COMPLEX.C"
 */
 
-void			squarefy_complex(double re_base, double im_base,
-										double *re_res, double *im_res);
-double			module_complex(double re, double im);
-int				iterate_mandel(double re_base, double im_base, int iters);
-int				iterate_julia(double re_base, double im_base,
-												int iters, t_win *win);
+t_complex		squarefy_complex(t_complex z);
+int				iterate_mandel(double re_base, double im_base, t_win *win);
+int				iterate_tricorn1(double re_base, double im_base, t_win *win);
+int				iterate_tricorn2(double re_base, double im_base, t_win *win);
+int				iterate_julia(double re_base, double im_base, t_win *win);
+int				iterate_ship(double re_base, double im_base, t_win *win);
 
 /*
 ** Functions of the file "SCALING.C"

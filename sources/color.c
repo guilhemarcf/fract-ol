@@ -45,11 +45,11 @@ int				set_color2(int ite, t_win *win)
 
 	if (ite < win->iters && ite > 0)
 	{
-		red = ((double)win->iters - (ite / (double)win->iters)) *
+		red = (int)((double)win->iters - (ite / (double)win->iters)) *
 							(win->red_incr * 32 - 1);
-		green = ((double)win->iters - (ite / (double)win->iters)) *
+		green = (int)((double)win->iters - (ite / (double)win->iters)) *
 							(win->green_incr * 32 - 1);
-		blue = ((double)win->iters - (ite / (double)win->iters)) *
+		blue = (int)((double)win->iters - (ite / (double)win->iters)) *
 							(win->blue_incr * 32 - 1);
 		hexcolor = red << 16 | green << 8 | blue;
 		return (hexcolor);
