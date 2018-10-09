@@ -21,12 +21,12 @@ int		key_hook(int keycode, t_win *win)
 
 void	act_on_key(t_win *win)
 {
-	ft_putnbr(win->keycode);
-	ft_putchar(' ');
 	if (win->keycode == 53)
 		exit(0);
 	else if (win->keycode == 14)
 		able_julia(win);
+	else if (win->keycode == 15)
+		reset_img(win);
 	else if (win->keycode == 45 || win->keycode == 46)
 		change_fract(win);
 	else if (win->keycode == 24 || win->keycode == 27)
@@ -37,8 +37,6 @@ void	act_on_key(t_win *win)
 		change_color_incr_down(win);
 	else if (win->keycode >= 123 && win->keycode <= 126)
 		change_offset_keys(win);
-	else if (win->keycode >= 12 && win->keycode <= 17)
-		reset_img(win);
 	else if (win->keycode == 4 || win->keycode == 5)
 		change_color_pal(win);
 	else if (win->keycode == 0 || win->keycode == 6)

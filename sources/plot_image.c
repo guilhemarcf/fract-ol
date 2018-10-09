@@ -42,9 +42,9 @@ int		get_iterations(t_win *win, int i, int j)
 
 void	plot_image(t_win *win)
 {
-	int		i;
-	int		j;
-	int		ite;
+	int			i;
+	int			j;
+	int			ite;
 
 	i = -1;
 	while (++i < W_H)
@@ -64,5 +64,6 @@ void	plot_image(t_win *win)
 		}
 	}
 	mlx_put_image_to_window(win->m_p, win->w_p, win->i_p, 0, 0);
+	print_instr(win);
 }
 

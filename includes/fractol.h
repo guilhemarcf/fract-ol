@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
+# include <pthread.h>
 
 # define W_W 1300
 # define W_H 1000
@@ -49,7 +50,10 @@ typedef struct	s_win
 	int			julia_enable;
 	int			mandelheads;
 
-	int			fract_beckup;
+	int			fract_backup;
+
+	int			i;
+	int			j;
 
 	char		*image;
 	int			bpp;
@@ -189,5 +193,14 @@ void			change_offset_keys(t_win *win);
 
 void			error(void);
 void			usage(void);
+void			print_instr(t_win *win);
+
+/*
+** Functions from "THREADS.C"
+*/
+
+void			*new_main_thread(void *vargp);
+void			initialize_prog_1_par(int fracnum1);
+void			initialize_prog_2_par(int fracnum1, int fracnum2);
 
 #endif

@@ -53,7 +53,7 @@ void		init_img(t_win *win, int fracnum)
 	win->offx = 0.0;
 	win->offy = 0.0;
 	win->fract = fracnum - 1;
-	win->fract_beckup = win->fract;
+	win->fract_backup = win->fract;
 	win->mode = 0;
 	win->iters = 50;
 	win->zoom = 10;
@@ -74,17 +74,23 @@ void		init_img(t_win *win, int fracnum)
 
 int		main(int ac, char **av)
 {
-	t_win	*win;
-	int		fracnum;
+	int			fracnum2;
+	int			fracnum1;
 
-	(void)av;
 	if (ac == 2)
 	{
-		fracnum = ft_atoi(av[1]);
-		if (fracnum < 1 || fracnum > 5)
+		fracnum1 = ft_atoi(av[1]);
+		if (fracnum1 < 1 || fracnum1 > 5)
 			usage();
-		if ((win = init_window(fracnum)) == NULL)
-			error();
+		initialize_prog_1_par(fracnum1);
+	}
+	else if (ac == 3)
+	{
+		fracnum1 = ft_atoi(av[1]);
+		fracnum2 = ft_atoi(av[2]);
+		if ((fracnum1 < 1 || fracnum1 > 5) || (fracnum2 < 1 || fracnum2 > 5))
+			usage();
+		initialize_prog_2_par(fracnum1, fracnum2);
 	}
 	else
 		usage();

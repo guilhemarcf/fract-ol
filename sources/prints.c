@@ -32,9 +32,13 @@ void	usage(void)
 void	print_instr(t_win *win)
 {
 	mlx_string_put(win->m_p, win->w_p, W_W / 15, W_H / 15, 0xFFFFFF,
-					"\"ESC\" -> exit | \"A\" and \"Z\" -> zooming factor");
+		"\"ESC\" -> exit | \"A\" and \"Z\" -> zooming factor");
 	mlx_string_put(win->m_p, win->w_p, W_W / 15, W_H / 15 + 20, 0xFFFFFF,
-					"\"S\", \"D\", \"F\", \"X\", \"C\", \"V\" -> RGB");
+		"\"S\", \"D\", \"F\", \"X\", \"C\", \"V\" -> RGB");
 	mlx_string_put(win->m_p, win->w_p, W_W / 15, W_H / 15 + 40, 0xFFFFFF,
-					"\"ESC\" -> exit | \"A\" and \"Z\" -> zooming factor");
+		"\"G\", \"H\" -> color palette | \"J\", \"K\" -> iterations");
+	mlx_string_put(win->m_p, win->w_p, W_W / 15, W_H / 15 + 60, 0xFFFFFF,
+		"\"N\", \"M\" -> fractals | \"-\", \"=\" -> \"heads\"");
+	mlx_string_put(win->m_p, win->w_p, W_W / 15, W_H / 15 + 80, 0xFFFFFF,
+		"\"R\" -> reset all | \"E\" -> enable julia set");
 }

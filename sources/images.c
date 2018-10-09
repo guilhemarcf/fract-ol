@@ -16,7 +16,7 @@ void		reset_img(t_win *win)
 {
 	win->offx = 0.0;
 	win->offy = 0.0;
-	win->fract = win->fract_beckup;
+	win->fract = win->fract_backup;
 	win->mode = 0;
 	win->iters = 50;
 	win->zoom = 10;
