@@ -43,7 +43,6 @@ void	act_on_key(t_win *win)
 		change_zoom(win);
 	else if (win->keycode == 38 || win->keycode == 40)
 		change_iters(win);
-	plot_image(win);
 }
 
 void	change_offset_keys(t_win *win)

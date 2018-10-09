@@ -40,30 +40,58 @@ int		get_iterations(t_win *win, int i, int j)
 	return (ite);
 }
 
-void	plot_image(t_win *win)
+void	*work_thread(void *taux)
 {
-	int			i;
 	int			j;
 	int			ite;
+	t_tx		*tx;
 
-	i = -1;
-	while (++i < W_H)
+	tx = (t_tx *)taux;
+	j = -1;
+	while (++j < W_W)
 	{
-		j = -1;
-		while (++j < W_W)
+		ite = get_iterations(tx->win, tx->win->i + tx->id, j);
+		if (tx->win->color_pal == 0)
+			put_pixel_img(tx->win, tx->win->i + tx->id, j,
+										set_color1(ite, tx->win));
+		else if (tx->win->color_pal == 1)
+			put_pixel_img(tx->win, tx->win->i + tx->id, j,
+										set_color2(ite, tx->win));
+		else if (tx->win->color_pal == 2)
+			put_pixel_img(tx->win, tx->win->i + tx->id, j,
+										set_color3(ite, tx->win));
+		else if (tx->win->color_pal == 3)
+			put_pixel_img(tx->win, tx->win->i + tx->id, j,
+										set_color4(ite, tx->win));
+	}
+	return (NULL);
+}
+
+int		plot_image(t_win *win)
+{
+	int			i;
+	int			t;
+	t_tx		tx[THREADS];
+	pthread_t	pt[THREADS];
+	
+	i = 0;
+	while (i < W_H - THREADS)
+	{
+		t = -1;
+		win->i = i;
+		while(++t < THREADS)
 		{
-			ite = get_iterations(win, i, j);
-			if (win->color_pal == 0)
-				put_pixel_img(win, i, j, set_color1(ite, win));
-			else if (win->color_pal == 1)
-				put_pixel_img(win, i, j, set_color2(ite, win));
-			else if (win->color_pal == 2)
-				put_pixel_img(win, i, j, set_color3(ite, win));
-			else if (win->color_pal == 3)
-				put_pixel_img(win, i, j, set_color4(ite, win));
+			tx[t].win = win;
+			tx[t].id = t;
+			pthread_create(&pt[t], NULL, work_thread, (void *)&tx[t]);
 		}
+		t = -1;
+		while(++t < THREADS)
+			pthread_join(pt[t], NULL);
+		i += THREADS;
 	}
 	mlx_put_image_to_window(win->m_p, win->w_p, win->i_p, 0, 0);
 	print_instr(win);
+	return (1);
 }
 

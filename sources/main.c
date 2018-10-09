@@ -36,6 +36,7 @@ t_win	*init_window(int fracnum)
 	mlx_hook(win->w_p, 6, 0, motion_hook, win);
 	mlx_hook(win->w_p, 4, 0, mouse_press, win);
 	mlx_hook(win->w_p, 5, 0, mouse_release, win);
+	mlx_loop_hook(win->m_p, &plot_image, win);
 	mlx_loop(win->m_p);
 	return (win);
 }
@@ -74,23 +75,15 @@ void		init_img(t_win *win, int fracnum)
 
 int		main(int ac, char **av)
 {
-	int			fracnum2;
 	int			fracnum1;
+	t_win		*win;
 
 	if (ac == 2)
 	{
 		fracnum1 = ft_atoi(av[1]);
 		if (fracnum1 < 1 || fracnum1 > 5)
 			usage();
-		initialize_prog_1_par(fracnum1);
-	}
-	else if (ac == 3)
-	{
-		fracnum1 = ft_atoi(av[1]);
-		fracnum2 = ft_atoi(av[2]);
-		if ((fracnum1 < 1 || fracnum1 > 5) || (fracnum2 < 1 || fracnum2 > 5))
-			usage();
-		initialize_prog_2_par(fracnum1, fracnum2);
+		win = init_window(fracnum1);
 	}
 	else
 		usage();

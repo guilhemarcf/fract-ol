@@ -34,8 +34,7 @@ SRC_NAME = main.c\
 			plot_image.c\
 			fractals.c\
 			color_ext.c\
-			julia_ext.c\
-			threads.c
+			julia_ext.c
 
 INC_NAME = fractol.h
 
@@ -72,4 +71,6 @@ simple: $(OBJ)
 	@$(CC) -o $(NAME) $(OBJ) $(INC) -L $(LFT_PATH) -lft -L $(MLX_PATH) -lmlx \
 	-framework OpenGL -framework AppKit -lpthread
 
-.PHONY: clean $(NAME) fclean all re
+o: clean all
+
+.PHONY: clean $(NAME) fclean all re simple o

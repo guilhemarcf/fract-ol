@@ -22,6 +22,7 @@
 
 # define W_W 1300
 # define W_H 1000
+# define THREADS 8
 
 typedef struct	s_point
 {
@@ -53,7 +54,6 @@ typedef struct	s_win
 	int			fract_backup;
 
 	int			i;
-	int			j;
 
 	char		*image;
 	int			bpp;
@@ -82,6 +82,13 @@ typedef struct	s_win
 	int			blue_incr;
 }				t_win;
 
+typedef struct	s_tx
+{
+	t_win		*win;
+	int			id;
+}				t_tx;
+
+
 /*
 ** Functions from "MAIN.C" 
 */
@@ -106,7 +113,7 @@ void			change_fract(t_win *win);
 */
 
 int				get_iterations(t_win *win, int i, int j);
-void			plot_image(t_win *win);
+int				plot_image(t_win *win);
 
 /*
 ** Functions from "FRACTALS.C"
@@ -200,7 +207,6 @@ void			print_instr(t_win *win);
 */
 
 void			*new_main_thread(void *vargp);
-void			initialize_prog_1_par(int fracnum1);
-void			initialize_prog_2_par(int fracnum1, int fracnum2);
+
 
 #endif

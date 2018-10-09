@@ -30,7 +30,6 @@ void		reset_img(t_win *win)
 	win->blue_incr = 8;
 	win->scaley = 3.5;
 	win->scalex = (win->scaley * W_W) / (double)W_H;
-	plot_image(win);
 }
 
 /*

@@ -37,10 +37,9 @@ void	mouse_follow(int x, int y, t_win *win)
 		win->p2.y = win->p_inst.y;
 		win->x_range = win->p1.x - win->p2.x;
 		win->y_range = win->p1.y - win->p2.y;
-		win->offx += 4 * win->x_range;
-		win->offy += 4 * win->y_range;
+		win->offx += 2 * win->x_range;
+		win->offy += 2 * win->y_range;
 		win->odd_read = 0;
-		plot_image(win);
 	}
 }
 
@@ -52,7 +51,6 @@ int		mouse_press(int button, int x, int y, t_win *win)
 		zoom_in(win, x, y);
 	else if (button == 5)
 		zoom_out(win, x, y);
-	plot_image(win);
 	return (1);
 }
 
