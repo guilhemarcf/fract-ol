@@ -12,6 +12,10 @@
 
 #include "./../includes/fractol.h"
 
+/*
+** The math formula to generate the mandelbrot set fractal
+*/
+
 int			iterate_mandel(double re_base, double im_base, t_win *win)
 {
 	t_complex	z;
@@ -28,6 +32,10 @@ int			iterate_mandel(double re_base, double im_base, t_win *win)
 	return (i);
 }
 
+/*
+** The math formula to generate the julia set fractal
+*/
+
 int			iterate_julia(double re_base, double im_base, t_win *win)
 {
 	t_complex	z;
@@ -43,6 +51,10 @@ int			iterate_julia(double re_base, double im_base, t_win *win)
 	}
 	return (i);
 }
+
+/*
+** The math formula to generate the original tricorn fractal
+*/
 
 int			iterate_tricorn1(double re_base, double im_base, t_win *win)
 {
@@ -63,6 +75,10 @@ int			iterate_tricorn1(double re_base, double im_base, t_win *win)
 	return (i);
 }
 
+/*
+** The math formula to generate the modified tricorn fractal
+*/
+
 int			iterate_tricorn2(double re_base, double im_base, t_win *win)
 {
 	t_complex	z;
@@ -82,6 +98,10 @@ int			iterate_tricorn2(double re_base, double im_base, t_win *win)
 	return (i);
 }
 
+/*
+** The math formula to generate the burning ship fractal
+*/
+
 int			iterate_ship(double re_base, double im_base, t_win *win)
 {
 	t_complex	z;
@@ -100,4 +120,3 @@ int			iterate_ship(double re_base, double im_base, t_win *win)
 	}
 	return (i);
 }
-

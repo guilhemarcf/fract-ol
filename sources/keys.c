@@ -12,12 +12,22 @@
 
 #include "./../includes/fractol.h"
 
+/*
+** Whenever a key is pressed, its value is stored and a function that will
+** decide what to do with it is called.
+*/
+
 int		key_hook(int keycode, t_win *win)
 {
 	win->keycode = keycode;
 	act_on_key(win);
 	return (keycode);
 }
+
+/*
+** This function checks which key was pressed and directs the execution the
+** the corresponding function.
+*/
 
 void	act_on_key(t_win *win)
 {
@@ -44,6 +54,11 @@ void	act_on_key(t_win *win)
 	else if (win->keycode == 38 || win->keycode == 40)
 		change_iters(win);
 }
+
+/*
+** This function allows moving the image with the keys. It will always
+** translade 5% in any direction.
+*/
 
 void	change_offset_keys(t_win *win)
 {

@@ -12,6 +12,13 @@
 
 #include "./../includes/fractol.h"
 
+/*
+** This is a function called by one of the event listeners in the main file.
+** Here, depending on parameters of the win struct, it will wither direct the
+** execution to moving the screen around, or changing the parameter of the
+** julia set.
+*/
+
 int		motion_hook(int x, int y, t_win *win)
 {
 	if (win->move_screen == 1)
@@ -20,6 +27,14 @@ int		motion_hook(int x, int y, t_win *win)
 		follow_julia(x, y, win);
 	return (1);
 }
+
+/*
+** Function called in order to translate the image with the mouse. While
+** the left mouse button is pressed, it will constantly refresh and update
+** the points p1 and p2 with the p_inst values and make translations, by
+** changing the x and y offsets of the image based on the offsets of the
+** points captured in the time interval.
+*/
 
 void	mouse_follow(int x, int y, t_win *win)
 {
@@ -43,6 +58,14 @@ void	mouse_follow(int x, int y, t_win *win)
 	}
 }
 
+/*
+** Whenever one of the buttons of the mouse is pressed, this function
+** determines what should happen next. If it's the button on, it will
+** change a win variable that will make the mouse_follow function work,
+** and in case it's the mouse will, depending on which direction it spun,
+** and the mouse position, it will alter the zoom.
+*/
+
 int		mouse_press(int button, int x, int y, t_win *win)
 {
 	if (button == 1)
@@ -54,6 +77,14 @@ int		mouse_press(int button, int x, int y, t_win *win)
 	return (1);
 }
 
+/*
+** Whenever the mouse button 1 is released, this function is called to
+** unset the variables that make the translation with the mouse possible.
+** It has to do it, otherwise mouse_follow function could be stuck in the
+** middle of tracking a translation, making it give undesired leaps all over
+** the image.
+*/
+
 int		mouse_release(int button, int x, int y, t_win *win)
 {
 	(void)x;
@@ -62,6 +93,12 @@ int		mouse_release(int button, int x, int y, t_win *win)
 		clear_points(win);
 	return (1);
 }
+
+/*
+** Nulifies the difference between the points tracked by mouse_follow, so
+** that it always start by where it should. Also changes the variables that
+** regulate that function's behavior to the standard.
+*/
 
 void	clear_points(t_win *win)
 {

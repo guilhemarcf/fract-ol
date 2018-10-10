@@ -12,6 +12,12 @@
 
 #include "./../includes/fractol.h"
 
+/*
+** This function scales the iterations for the pixel over the possible
+** iterations and multiplies it by a color increment stored in the win struct.
+** The result is the RGB value, which is passed to an int, and then returned.
+*/
+
 int				set_color1(int ite, t_win *win)
 {
 	int		hexcolor;
@@ -31,6 +37,10 @@ int				set_color1(int ite, t_win *win)
 		return (0xFFFFFF);
 }
 
+/*
+** This function colors the fractals by shifting bits according to the number
+** of iterations for the pixel. Hacky and cool.
+*/
 
 int				set_color2(int ite, t_win *win)
 {
@@ -40,6 +50,13 @@ int				set_color2(int ite, t_win *win)
 		return (0xFFFFFF);
 }
 
+/*
+** This is a very hacky way of gettin psychedelic colors, just scaling the
+** equivalent of white to the number of iterations over the total iterations.
+** since the bits in the white color represent RGB in a different way that
+** they represent a number, the result is very cool and unpredictable.
+** This one is the inverse of the function below.
+*/
 
 int				set_color3(int ite, t_win *win)
 {
@@ -54,6 +71,13 @@ int				set_color3(int ite, t_win *win)
 	else
 		return (0xFFFFFF);
 }
+
+/*
+** This is a very hacky way of gettin psychedelic colors, just scaling the
+** equivalent of white to the number of iterations over the total iterations.
+** since the bits in the white color represent RGB in a different way that
+** they represent a number, the result is very cool and unpredictable.
+*/
 
 int				set_color4(int ite, t_win *win)
 {

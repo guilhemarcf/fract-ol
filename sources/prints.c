@@ -12,12 +12,10 @@
 
 #include "./../includes/fractol.h"
 
-void	error(void)
-{
-	ft_putstr("Error: Something went wrong in the system.\n");
-	ft_putstr("Don't be sad, it's not your fault\n");
-	exit(0);
-}
+/*
+** This function is called when arguments were badly passed to the program.
+** It's called by main, and shows the basic usage of the program.
+*/
 
 void	usage(void)
 {
@@ -28,6 +26,11 @@ void	usage(void)
 	ft_putstr("You can view one or two fractals at a time.\n");
 	exit(0);
 }
+
+/*
+** This one prints on the screen the instructions for navigating the fractals
+** with the program. It's called by the plot_image function.
+*/
 
 void	print_instr(t_win *win)
 {

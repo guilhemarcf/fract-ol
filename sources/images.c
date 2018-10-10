@@ -12,6 +12,11 @@
 
 #include "./../includes/fractol.h"
 
+/*
+** This function is called everytime R is pressed, in order to bring the image
+** to its original parameters.
+*/
+
 void		reset_img(t_win *win)
 {
 	win->offx = 0.0;
@@ -47,7 +52,15 @@ void		put_pixel_img(t_win *win, int y, int x, int color)
 	img[(y * W_W) + x] = color;
 }
 
-void	change_mandelheads(t_win *win)
+/*
+** This function alters the power to which the complex numbers are elevated
+** in the rendering of the fractals, causing some interesting effects.
+** I called it mandelheads because it changes the number of "heads" of the
+** mandelbrot set.
+** The caller of this function is in the keys file.
+*/
+
+void		change_mandelheads(t_win *win)
 {
 	if (win->keycode == 27)
 	{
@@ -65,7 +78,14 @@ void	change_mandelheads(t_win *win)
 	}
 }
 
-void	change_iters(t_win *win)
+/*
+** This function changes the amount of iterations that happen for each pixel,
+** making it slower or faster, more or less detailed. The more iterations,
+** the more one can zoom in the set.
+** The caller of this function is in the keys file.
+*/
+
+void		change_iters(t_win *win)
 {
 	if (win->keycode == 38 && (win->iters < 1000))
 		win->iters *= 1.025;
@@ -73,7 +93,12 @@ void	change_iters(t_win *win)
 		win->iters *= 0.97560975609;
 }
 
-void	change_fract(t_win *win)
+/*
+** This function changes among the types of fractal that this program renders,
+** and its caller is in the keys file.
+*/
+
+void		change_fract(t_win *win)
 {
 	if (win->keycode == 45)
 	{

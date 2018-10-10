@@ -13,7 +13,9 @@
 #include "./../includes/fractol.h"
 
 /*
-** This function effectively plots the mandelbrot set
+** This function will return a value of how many iterations were possible to
+** reach for each pixel, and will do it according to the method specific to
+** the fractal wanted, determined by the win variable.
 */
 
 int		get_iterations(t_win *win, int i, int j)
@@ -39,6 +41,13 @@ int		get_iterations(t_win *win, int i, int j)
 		ite = 1;
 	return (ite);
 }
+
+/*
+** This function is the generic function for each thread. It renders the
+** specified line, calling the function that discovers how many iterations
+** a given point need until escape and then uses the coloring function
+** determined by a parameter in the win struct.
+*/
 
 void	*work_thread(void *taux)
 {
@@ -67,26 +76,34 @@ void	*work_thread(void *taux)
 	return (NULL);
 }
 
+/*
+** This is the function that renders all the fractals, according to msome
+** parameters. What it does every time is to separate the work in up to
+** THREADS ammout of threads and give a line of the screen to each one.
+** It uses a t_tx data structure, which simply contains a pointer to a win
+** structure, and an integer used as id, to diferentiate each thread.
+*/
+
 int		plot_image(t_win *win)
 {
 	int			i;
 	int			t;
 	t_tx		tx[THREADS];
 	pthread_t	pt[THREADS];
-	
+
 	i = 0;
 	while (i < W_H - THREADS)
 	{
 		t = -1;
 		win->i = i;
-		while(++t < THREADS)
+		while (++t < THREADS)
 		{
 			tx[t].win = win;
 			tx[t].id = t;
 			pthread_create(&pt[t], NULL, work_thread, (void *)&tx[t]);
 		}
 		t = -1;
-		while(++t < THREADS)
+		while (++t < THREADS)
 			pthread_join(pt[t], NULL);
 		i += THREADS;
 	}
@@ -94,4 +111,3 @@ int		plot_image(t_win *win)
 	print_instr(win);
 	return (1);
 }
-

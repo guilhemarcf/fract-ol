@@ -12,13 +12,27 @@
 
 #include "./../includes/fractol.h"
 
+/*
+** This functions modifies the zoom parameter, making it zoom in or out faster
+** or slower, depending on the preference of the user.
+*/
+
 void	change_zoom(t_win *win)
 {
 	if (win->keycode == 6 && (win->zoom >= 2))
 		win->zoom *= 0.5;
-	else if (win->keycode == 0 && (win->zoom <=1000))
+	else if (win->keycode == 0 && (win->zoom <= 1000))
 		win->zoom *= 2.0;
 }
+
+/*
+** The functions bellow manipulate the data coming from te=he mouse in order
+** to zoom. It basically uses the idea that for every position of the mouse,
+** it can find 2 other points that will set the boundaries for the new upper
+** right corner and lower left corner. The info found from these points is
+** used to modify the win variable accordingly and have a good plot next time
+** the image refreshes.
+*/
 
 void	zoom_in_offset_mouse(t_win *win)
 {

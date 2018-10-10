@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
-#define FRACTOL_H
+# define FRACTOL_H
 
 # include "./../minilibx_macos/mlx.h"
 # include "./../libft/libft.h"
@@ -88,12 +88,10 @@ typedef struct	s_tx
 	int			id;
 }				t_tx;
 
-
 /*
-** Functions from "MAIN.C" 
+** Functions from "MAIN.C"
 */
 
-t_win			*set_window(void);
 t_win			*init_window(int fracnum);
 void			init_img(t_win *win, int fracnum);
 int				main(int ac, char **av);
@@ -198,7 +196,6 @@ void			change_offset_keys(t_win *win);
 ** Functions from "PRINTS.C"
 */
 
-void			error(void);
 void			usage(void);
 void			print_instr(t_win *win);
 
@@ -207,6 +204,5 @@ void			print_instr(t_win *win);
 */
 
 void			*new_main_thread(void *vargp);
-
 
 #endif

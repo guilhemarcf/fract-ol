@@ -12,6 +12,11 @@
 
 #include "./../includes/fractol.h"
 
+/*
+** This function changes the way the RGB colors are calculated in a specific
+** color palette for the fractals. Increases their value.
+*/
+
 void	change_color_incr_up(t_win *win)
 {
 	if (win->keycode == 1)
@@ -37,6 +42,11 @@ void	change_color_incr_up(t_win *win)
 	}
 }
 
+/*
+** This function changes the way the RGB colors are calculated in a specific
+** color palette for the fractals. Decreases their value.
+*/
+
 void	change_color_incr_down(t_win *win)
 {
 	if (win->keycode == 7)
@@ -61,6 +71,10 @@ void	change_color_incr_down(t_win *win)
 			win->blue_incr = 8;
 	}
 }
+
+/*
+** This function changes the way the color is rendered in the fractals
+*/
 
 void	change_color_pal(t_win *win)
 {
